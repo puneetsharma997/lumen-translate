@@ -1,0 +1,173 @@
+// Select dropdown popover animations
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentHide {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.language-selector-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 100px) and (max-width: 350px) {
+    flex-direction: column;
+    gap: 0rem;
+  }
+
+  .swap-lang-icon {
+    background-color: var(--color-white);
+    border-radius: 50%;
+    width: 2.6rem;
+    height: 2.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+    margin-top: 1.3rem;
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    @media (min-width: 100px) and (max-width: 350px) {
+      margin-top: 0.8rem;
+    }
+  }
+
+  .label {
+    font-size: var(--font-h3-lg);
+    font-weight: 500;
+    color: var(--color-grey-label);
+  }
+
+  .from-selector,
+  .to-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+
+    .select-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 2.7rem;
+      padding: 0 0.6rem;
+      font-size: 1rem;
+      background-color: var(--color-white);
+      border: none;
+      border-radius: 0.4rem;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+
+      .select-value {
+        color: var(--color-dark-teal);
+        font-size: 1rem;
+        font-weight: 500;
+
+        &[data-placeholder-shown] {
+          color: var(--color-grey-label);
+          opacity: 0.7;
+
+          @media (min-width: 100px) and (max-width: 250px) {
+            font-size: 0.9rem;
+          }
+
+          @media (min-width: 251px) and (max-width: 400px) {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+
+    .select-icon {
+      opacity: 0.5;
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// styles for select dropdown popover
+.select-listbox {
+  padding: 0rem;
+  margin: 0rem;
+}
+
+.select-content {
+  background-color: var(--color-white);
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  padding: 0.2rem 0.2rem;
+  transform-origin: var(--kb-select-content-transform-origin);
+  animation: contentHide 0.2s ease-in forwards;
+  max-height: 27rem;
+  overflow: auto;
+
+  &:focus {
+    outline: none;
+  }
+
+  &[data-expanded] {
+    animation: contentShow 0.2s ease-out forwards;
+  }
+}
+
+.select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.6rem;
+  font-size: 0.93rem;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  outline: none;
+  color: var(--color-black-label);
+
+  &:focus {
+    outline: none;
+  }
+
+  &[data-highlighted] {
+    background-color: var(--color-hover-grey);
+    color: var(--color-dark-teal);
+  }
+
+  &[data-selected] {
+    background-color: var(--color-primary-teal);
+    color: var(--color-white);
+
+    // check icon color white
+    .kb-select__item-indicator {
+      color: var(--color-white);
+    }
+  }
+}

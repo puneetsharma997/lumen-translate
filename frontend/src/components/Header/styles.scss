@@ -1,0 +1,42 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem 1rem 1rem;
+  margin: 0rem 2rem;
+  border-bottom: 2px solid var(--color-info-secondary);
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    .title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--color-black-label) !important;
+
+      @media (min-width: 100px) and (max-width: 250px) {
+        font-size: 1.1rem;
+      }
+
+      @media (min-width: 251px) and (max-width: 400px) {
+        font-size: 1.3rem;
+      }
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--color-grey-label) !important;
+
+      @media (min-width: 100px) and (max-width: 250px) {
+        font-size: 0.8rem;
+      }
+
+      @media (min-width: 251px) and (max-width: 400px) {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
