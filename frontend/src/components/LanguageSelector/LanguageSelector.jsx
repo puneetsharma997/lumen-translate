@@ -5,7 +5,7 @@ import toast from "solid-toast";
 import { API_GET_LANGUAGES } from "../../apiConfig/api-url";
 import { convertLanguagesResponse } from "../../utils/utils";
 import './styles.scss';
-
+import LanguageDropdown from "./LanguageDropdown";
 
 const LanguageSelector = (props) => {
   const { fromLang, setFromLang, toLang, setToLang } = props;
@@ -25,18 +25,25 @@ const LanguageSelector = (props) => {
     }
   }))
 
-  // onMount will run only once, when the component is mounted
-  // calling get languages api to fetch list of languages
-  onMount(async () => {
-    const response = await fetch(API_GET_LANGUAGES, { method: 'GET' });
-    if (!response.ok) {
-      toast.error('Failed to fetch languages');
-      throw new Error('Failed to fetch languages');
-    }
+  // function to fetch languages list from api
+  const fetchLanguages = async () => {
+    try {
+      const response = await fetch(API_GET_LANGUAGES);
+      if (!response.ok) {
+        toast.error('Failed to fetch languages');
+        throw new Error("Failed to fetch languages");
+      }
 
-    const json = await response.json();
-    setLanguagesList(json.languages);
-  })
+      const json = await response.json();
+      setLanguagesList(json.languages);
+    } catch (err) {
+      setError(err.message);
+      toast.error("Unable to load languages");
+    }
+  };
+
+  // onMount will run only once, when the component is mounted
+  onMount(fetchLanguages);
 
   // function to swap languages
   const handleSwap = () => {
@@ -58,32 +65,13 @@ const LanguageSelector = (props) => {
 
       <div class='from-selector'>
         <label class='label'>From</label>
-        <Select
-          options={languageOptions()}
-          optionValue='value'
-          optionTextValue='label'
-          value={fromLang()}
+        <LanguageDropdown
+          languageOptions={languageOptions}
+          value={fromLang}
           onChange={setFromLang}
-          itemComponent={renderItem}
-          disallowEmptySelection={true}
-          placeholder='Select Language'
-          disabled={languagesList()?.length === 0}
-        >
-          {/* select trigger -> button which is used to to open dropdown popover options */}
-          <Select.Trigger class='select-trigger' aria-label='From Language'>
-            <Select.Value class='select-value'>
-              {(state) => state.selectedOption()?.label || "Loading languages..."}
-            </Select.Value>
-            <Select.Icon class='select-icon'>▼</Select.Icon>
-          </Select.Trigger>
-
-          {/* container for dropdown popover options list */}
-          <Select.Portal>
-            <Select.Content class='select-content'>
-              <Select.Listbox class='select-listbox' />
-            </Select.Content>
-          </Select.Portal>
-        </Select>
+          label="From Language"
+          languagesList={languagesList}
+        />
       </div>
 
       <div
@@ -96,34 +84,14 @@ const LanguageSelector = (props) => {
 
       <div class='to-selector'>
         <label class='label'>To</label>
-        <Select
-          options={languageOptions()}
-          optionValue='value'
-          optionTextValue='label'
-          value={toLang()}
+        <LanguageDropdown
+          languageOptions={languageOptions}
+          value={toLang}
           onChange={setToLang}
-          itemComponent={renderItem}
-          disallowEmptySelection={true}
-          placeholder='Select Language'
-          disabled={languagesList()?.length === 0}
-        >
-          {/* select trigger -> button which is used to to open dropdown popover options */}
-          <Select.Trigger class='select-trigger' aria-label='From Language'>
-            <Select.Value class='select-value'>
-              {(state) => state.selectedOption()?.label || "Loading languages..."}
-            </Select.Value>
-            <Select.Icon class='select-icon'>▼</Select.Icon>
-          </Select.Trigger>
-
-          {/* container for dropdown popover options list */}
-          <Select.Portal>
-            <Select.Content class='select-content'>
-              <Select.Listbox class='select-listbox' />
-            </Select.Content>
-          </Select.Portal>
-        </Select>
+          label="To Language"
+          languagesList={languagesList}
+        />
       </div>
-
     </div>
   );
 };
