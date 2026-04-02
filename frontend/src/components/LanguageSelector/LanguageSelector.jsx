@@ -66,7 +66,7 @@ const LanguageSelector = (props) => {
           {/* select trigger -> button which is used to to open dropdown popover options */}
           <Select.Trigger class='select-trigger' aria-label='From Language'>
             <Select.Value class='select-value'>
-              {(state) => state.selectedOption()?.label}
+              {(state) => state.selectedOption()?.label || "Loading languages..."}
             </Select.Value>
             <Select.Icon class='select-icon'>▼</Select.Icon>
           </Select.Trigger>
@@ -103,7 +103,7 @@ const LanguageSelector = (props) => {
           {/* select trigger -> button which is used to to open dropdown popover options */}
           <Select.Trigger class='select-trigger' aria-label='From Language'>
             <Select.Value class='select-value'>
-              {(state) => state.selectedOption()?.label}
+              {(state) => state.selectedOption()?.label || "Loading languages..."}
             </Select.Value>
             <Select.Icon class='select-icon'>▼</Select.Icon>
           </Select.Trigger>
