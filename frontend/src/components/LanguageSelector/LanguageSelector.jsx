@@ -62,6 +62,7 @@ const LanguageSelector = (props) => {
           itemComponent={renderItem}
           disallowEmptySelection={true}
           placeholder='Select Language'
+          disabled={languagesList?.length === 0}
         >
           {/* select trigger -> button which is used to to open dropdown popover options */}
           <Select.Trigger class='select-trigger' aria-label='From Language'>
@@ -99,6 +100,7 @@ const LanguageSelector = (props) => {
           itemComponent={renderItem}
           disallowEmptySelection={true}
           placeholder='Select Language'
+          disabled={languagesList?.length === 0}
         >
           {/* select trigger -> button which is used to to open dropdown popover options */}
           <Select.Trigger class='select-trigger' aria-label='From Language'>
