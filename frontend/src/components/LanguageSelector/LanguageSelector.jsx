@@ -1,6 +1,6 @@
 import { Select } from "@kobalte/core/select";
 import { ArrowRightLeft } from 'lucide-solid';
-import { createEffect, createSignal, on, onMount } from "solid-js";
+import { createEffect, createSignal, on, onMount, createMemo } from "solid-js";
 import toast from "solid-toast";
 import { API_GET_LANGUAGES } from "../../apiConfig/api-url";
 import { convertLanguagesResponse } from "../../utils/utils";
@@ -11,6 +11,11 @@ const LanguageSelector = (props) => {
   const { fromLang, setFromLang, toLang, setToLang } = props;
 
   const [languagesList, setLanguagesList] = createSignal([]);
+
+  // memoized options for better performance
+  const languageOptions = createMemo(() =>
+    convertLanguagesResponse(languagesList)
+  );
 
   // to set the default languages as soon as api response is received
   createEffect(on(languagesList, () => {
@@ -54,7 +59,7 @@ const LanguageSelector = (props) => {
       <div class='from-selector'>
         <label class='label'>From</label>
         <Select
-          options={convertLanguagesResponse(languagesList)}
+          options={languageOptions()}
           optionValue='value'
           optionTextValue='label'
           value={fromLang()}
@@ -92,7 +97,7 @@ const LanguageSelector = (props) => {
       <div class='to-selector'>
         <label class='label'>To</label>
         <Select
-          options={convertLanguagesResponse(languagesList)}
+          options={languageOptions()}
           optionValue='value'
           optionTextValue='label'
           value={toLang()}
