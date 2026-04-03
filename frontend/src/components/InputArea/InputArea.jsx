@@ -1,6 +1,6 @@
 import { TextField } from '@kobalte/core/text-field';
 import { Copy, Volume2, X } from 'lucide-solid';
-import { createEffect, on, Show } from 'solid-js';
+import { createEffect, createMemo, on, Show } from 'solid-js';
 import toast from 'solid-toast';
 import { speakText } from '../../utils/utils';
 import './styles.scss';
@@ -11,6 +11,10 @@ const InputArea = (props) => {
 
   const totalCharacters = 5000;
 
+  // memoized values
+  const hasInput = createMemo(() => inputText()?.length > 0);
+  const hasTranslation = createMemo(() => !!translatedText());
+
   createEffect(on(inputText, () => {
     if (inputText()?.length === 0) {
       setTranslatedText('');
@@ -19,23 +23,22 @@ const InputArea = (props) => {
 
   // function to copy translated text to clipboard
   const handleCopyToClipboard = () => {
-    if (translatedText()) {
-      navigator.clipboard.writeText(translatedText());
-      toast.success('Copied successfully.');
-    }
+    if (!hasTranslation()) return;
+
+    navigator.clipboard.writeText(translatedText());
+    toast.success('Copied successfully.');
   }
 
   // function to remove input text from text area
   const handleRemoveInputText = () => {
-    if (inputText()) {
-      setTranslatedText('');
-      setInputText('');
-    }
+    if (!hasInput()) return;
+
+    setTranslatedText('');
+    setInputText('');
   }
 
   // onclick function to speak text
   const handleOnSpeakClick = (type) => {
-    console.log('clicked')
     if (type === 'source') {
       speakText(inputText(), fromLang()?.value);
     }
